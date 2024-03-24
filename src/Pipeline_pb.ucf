@@ -1,0 +1,3 @@
+NET I_CLK	                    LOC = B8; 
+NET I_CLK	                    TNM_NET = CLOCK;
+TIMESPEC TS_CLOCK = PERIOD CLOCK 240 MHz HIGH 50 %;
