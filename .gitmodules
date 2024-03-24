@@ -1,0 +1,3 @@
+[submodule "build"]
+	path = build
+	url = ssh://git@github.com:PxaMMaxP/Xilinx-ISE-Makefile.git
