@@ -4,13 +4,13 @@
 
 ## Diagram
 
-![Diagram](PipelineController.svg "Diagram")
+![Diagram](docs/PipelineController.svg "Diagram")
 
 ## Description
 
 - Name: **Pipeline Controller**
 - Version: 0.0.1
-- Author: _Maximilian Passarello ([Blog](mpassarello.de))_
+- Author: _Maximilian Passarello ([Blog](http://mpassarello.de))_
 - License: [MIT](LICENSE)
 
 The Pipeline Controller provides an easy way to construct a pipeline
@@ -118,13 +118,13 @@ This is used to activate or deactivate the pipeline in full or via CE deactivate
 
 ## Diagram
 
-![Diagram](PipelineRegister.svg "Diagram")
+![Diagram](docs/PipelineRegister.svg "Diagram")
 
 ## Description
 
 - Name: **Pipeline Register**
 - Version: 0.0.1
-- Author: _Maximilian Passarello ([Blog](mpassarello.de))_
+- Author: _Maximilian Passarello ([Blog](http://mpassarello.de))_
 - License: [MIT](LICENSE)
 
 The pipeline register provides a simple way to pipeline combinatorial logic using the **register rebalancing** of the synthesis.
