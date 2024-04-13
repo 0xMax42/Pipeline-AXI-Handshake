@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 --@ - Name:     **Pipeline Controller**
---@ - Version:  0.0.1
+--@ - Version:  0.0.2
 --@ - Author:   _Maximilian Passarello ([Blog](mpassarello.de))_
 --@ - License:  [MIT](LICENSE)
 --@             
@@ -46,6 +46,7 @@
 --@ 
 --@ ## History
 --@ - 0.0.1 (2024-03-24) Initial version
+--@ - 0.0.2 (2024-04-13) Enhanced the validity update logic to correctly handle configurations with a single pipeline stage
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -136,7 +137,11 @@ begin
                 R_Valid <= (others => '0');
             elsif I_CE = '1' then
                 if C_Ready = '1' then
-                    R_Valid <= R_Valid(R_Valid'high - 1 downto R_Valid'low) & I_Valid;
+                    if G_PipelineStages = 1 then
+                        R_Valid(0) <= I_Valid;
+                    else
+                        R_Valid <= R_Valid(R_Valid'high - 1 downto R_Valid'low) & I_Valid;
+                    end if;
                 end if;
             end if;
         end if;

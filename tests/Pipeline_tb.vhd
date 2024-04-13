@@ -8,8 +8,14 @@ entity Pipeline_tb is
 end entity Pipeline_tb;
 
 architecture behavior of Pipeline_tb is
-    shared variable seed1                     : integer := 483;
-    shared variable seed2                     : integer := 847;
+    -- Random number generator
+    --@ Select a random number for `seed1` to generate random numbers
+    shared variable seed1 : integer := 483;
+    --@ Select a random number for `seed2` to generate random numbers
+    shared variable seed2 : integer := 847;
+    --@ Generate a random number between `min_val` and `max_val`
+    --@ You must provide the `shared variable seed1` and `shared variable seed2` to generate random numbers.
+    --@ You need `use ieee.math_real.all;` to use this function.
     impure function rand_int(min_val, max_val : integer) return integer is
         variable r                                : real;
     begin
