@@ -1,1 +1,3 @@
 build/working
+.locale/
+vhdl_ls.toml
