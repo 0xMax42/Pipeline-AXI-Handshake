@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="./isim.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="env" />
+            <top_module name="glbl" />
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="pipelinebuffer_tb" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/pipelinebuffer_tb/i_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/i_rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_rst</obj_property>
+      <obj_property name="ObjectShortName">i_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/i_ce" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_ce</obj_property>
+      <obj_property name="ObjectShortName">i_ce</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/o_enable" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">o_enable[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_enable[1:0]</obj_property>
+      <wvobject fp_name="/pipelinebuffer_tb/o_enable[1]" type="logic" db_ref_id="1">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">o_enable[1]</obj_property>
+         <obj_property name="label">MUX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_enable[0]" type="logic" db_ref_id="1">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">o_enable[0]</obj_property>
+         <obj_property name="label">Enable</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/i_valid" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_valid</obj_property>
+      <obj_property name="ObjectShortName">i_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/o_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">o_ready</obj_property>
+      <obj_property name="ObjectShortName">o_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/o_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">o_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_data[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider12" type="divider">
+      <obj_property name="label">Out</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/o_valid" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">o_valid</obj_property>
+      <obj_property name="ObjectShortName">o_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/i_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">i_ready</obj_property>
+      <obj_property name="ObjectShortName">i_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/pipelinebuffer_tb/i_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">i_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="group15" type="group">
+      <obj_property name="label">Buffer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/i_enable" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_enable[1:0]</obj_property>
+         <obj_property name="ObjectShortName">i_enable[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/i_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">i_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">i_data[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/o_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">o_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">o_data[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/c_mux" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">c_mux</obj_property>
+         <obj_property name="ObjectShortName">c_mux</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/c_enable" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">c_enable</obj_property>
+         <obj_property name="ObjectShortName">c_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/i_PipelineBuffer/r_data" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">r_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">r_data[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
