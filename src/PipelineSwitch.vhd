@@ -7,11 +7,11 @@ entity PipelineSwitch is
     generic (
         --@ Width of the comparison input and mask.
         --@ This defines the bit width of `I_Match` and `G_Mask`.
-        G_MaskWidth : integer          := 4;
+        G_MaskWidth : integer := 4;
 
         --@ Comparison mask or reference value used to control routing.
         --@ Its width must match `G_MaskWidth`.
-        G_Mask      : std_logic_vector := "1010";
+        G_Mask : std_logic_vector := "1010";
 
         --@ Comparison mode that determines to which output the data is routed.
         --@ Available modes:
@@ -25,36 +25,39 @@ entity PipelineSwitch is
         --@ - `"ge"`:          Route to `Selected` if `I_Match` **≥** `G_Mask`.
         --@ - `"lt"`:          Route to `Selected` if `I_Match` **<** `G_Mask`.
         --@ - `"le"`:          Route to `Selected` if `I_Match` **≤** `G_Mask`.
-        G_MaskMode  : string           := "equal"
-    );
+        G_MaskMode : string := "equal"
+        );
 
     port (
         --@ Input value to be compared against `G_Mask` to determine routing.
-        I_Match          : in  std_logic_vector(G_MaskWidth - 1 downto 0) := (others => '0');
+        I_Match : in std_logic_vector(G_MaskWidth - 1 downto 0) := (others => '0');
 
         --@ @virtualbus AXI-Flags-In @dir In Input interface for AXI-like handshake
         --@ AXI-like valid; (**Synchronous**, **Active high**)
-        I_Valid          : in  std_logic                                  := '0';
+        I_Valid : in  std_logic := '0';
         --@ AXI-like ready; (**Synchronous**, **Active high**)
-        O_Ready          : out std_logic                                  := '0';
+        O_Ready : out std_logic := '0';
         --@ @end
+
+        --@ If `1`, route to `Selected` output; if `0`, route to `Default` output.
+        O_MUX_Select : out std_logic := '0';
 
         --@ @virtualbus AXI-Flags-Out @dir Out Output interface for unmatched routing
         --@ Activated when the comparison **fails**.
         --@ AXI-like valid; (**Synchronous**, **Active high**)
-        O_Default_Valid  : out std_logic                                  := '0';
+        O_Default_Valid : out std_logic := '0';
         --@ AXI-like ready; (**Synchronous**, **Active high**)
-        I_Default_Ready  : in  std_logic                                  := '0';
+        I_Default_Ready : in  std_logic := '0';
         --@ @end
 
         --@ @virtualbus AXI-Flags-Out @dir Out Output interface for matched routing
         --@ Activated when the comparison **succeeds**.
         --@ AXI-like valid; (**Synchronous**, **Active high**)
-        O_Selected_Valid : out std_logic                                  := '0';
+        O_Selected_Valid : out std_logic := '0';
         --@ AXI-like ready; (**Synchronous**, **Active high**)
-        I_Selected_Ready : in  std_logic                                  := '0'
-        --@ @end
-    );
+        I_Selected_Ready : in  std_logic := '0'
+     --@ @end
+        );
 
 end entity PipelineSwitch;
 
@@ -74,21 +77,21 @@ architecture RTL of PipelineSwitch is
         return true;
     end function;
 
-    constant K_Mode_None           : string    := "none";
-    constant K_Mode_OR             : string    := "or";
-    constant K_Mode_XOR            : string    := "xor";
-    constant K_Mode_AND            : string    := "and";
-    constant K_Mode_Equal          : string    := "equal";
-    constant K_Mode_NotEqual       : string    := "not_equal";
-    constant K_Mode_GT             : string    := "gt";
-    constant K_Mode_GE             : string    := "ge";
-    constant K_Mode_LT             : string    := "lt";
-    constant K_Mode_LE             : string    := "le";
+    constant K_Mode_None     : string := "none";
+    constant K_Mode_OR       : string := "or";
+    constant K_Mode_XOR      : string := "xor";
+    constant K_Mode_AND      : string := "and";
+    constant K_Mode_Equal    : string := "equal";
+    constant K_Mode_NotEqual : string := "not_equal";
+    constant K_Mode_GT       : string := "gt";
+    constant K_Mode_GE       : string := "ge";
+    constant K_Mode_LT       : string := "lt";
+    constant K_Mode_LE       : string := "le";
 
     signal C_ShouldRouteToSelected : std_logic := '0';
 begin
     assert G_Mask'length = G_MaskWidth
-    report "G_Mask length does not match G_MaskWidth" severity failure;
+        report "G_Mask length does not match G_MaskWidth" severity failure;
 
     process (I_Match)
     begin
@@ -162,7 +165,7 @@ begin
 
         elsif strings_equal(G_MaskMode, K_Mode_LE) then
             --@ Route to Selected if I_Match <= G_Mask (unsigned)
-            if unsigned(I_Match)    <= unsigned(G_Mask) then
+            if unsigned(I_Match) <= unsigned(G_Mask) then
                 C_ShouldRouteToSelected <= '1';
             else
                 C_ShouldRouteToSelected <= '0';
@@ -188,5 +191,7 @@ begin
             O_Ready          <= I_Default_Ready;
         end if;
     end process;
+
+    O_MUX_Select <= C_ShouldRouteToSelected;
 
 end architecture;
