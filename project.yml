@@ -15,7 +15,9 @@ testbenches:
     - path: tests/*.vhd
       library: work
 
-dependencies: []
+dependencies:
+  # - git: "https://git.0xmax42.io/maxp/Asynchronous-FIFO-AXI-Handshake.git"
+  #   rev: "hdlbuild"
 
 build:
   build_dir: working
@@ -33,7 +35,8 @@ tool_options:
   map: 
     - "-detail"
     - "-timing"
-    - "-ol high"
+    - "-ol"
+    - "high"
 
   par: []
 
