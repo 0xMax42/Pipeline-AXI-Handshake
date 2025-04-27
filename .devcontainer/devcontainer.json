@@ -4,7 +4,9 @@
   "runArgs": [
     "--privileged",
     "--cap-add=SYS_ADMIN",
-    "--shm-size=2g"
+    "--shm-size=2g",
+    "-v",
+    "/run/user/1000/gnupg/S.gpg-agent:/run/user/1000/gnupg/S.gpg-agent"
   ],
   "customizations": {
     "vscode": {
@@ -21,5 +23,8 @@
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "features": {},
-  "forwardPorts": [10000]
+  "forwardPorts": [
+    10000
+  ],
+  "postStartCommand": "git config --global user.signingkey 87C8A5DD5C14DF55DBE1DB4199AC216D447E61C0 && git config --global gpg.format openpgp && git config --global commit.gpgsign true && git config --global tag.forceSignAnnotated true && sudo apt update && sudo apt upgrade -y"
 }
