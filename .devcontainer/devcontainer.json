@@ -1,0 +1,25 @@
+{
+  "name": "Xilinx ISE 14.7",
+  "image": "xilinx-ise:14.7",
+  "runArgs": [
+    "--privileged",
+    "--cap-add=SYS_ADMIN",
+    "--shm-size=2g"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "/home/xilinx/vsxirepo/vhdl-by-hgb.vsix",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "remoteUser": "xilinx",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {},
+  "forwardPorts": [10000]
+}

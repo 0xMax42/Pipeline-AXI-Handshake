@@ -1,0 +1,265 @@
+name: Pipeline-AXI-Handshake
+topmodule: Pipeline_pb
+target_device: xc3s1200e-4-fg320
+xilinx_path: /opt/Xilinx/14.7/ISE_DS/ISE
+
+sources:
+  vhdl:
+    - path: src/*.vhd
+      library: work
+
+constraints: src/Pipeline_pb.ucf
+
+testbenches:
+  vhdl:
+    - path: tests/*.vhd
+      library: work
+
+dependencies: []
+
+build:
+  build_dir: working
+  report_dir: reports
+  copy_target_dir: output
+
+# Tool Optionen
+tool_options:
+  common: 
+    - "-intstyle"
+    - "xflow"
+
+  ngdbuild: []
+
+  map: 
+    - "-detail"
+    - "-timing"
+    - "-ol high"
+
+  par: []
+
+  bitgen: 
+    - "-g"
+    - "StartupClk:JtagClk"
+
+  trace:
+    - "-v"
+    - "3"
+    - "-n"
+    - "3"
+
+  fuse: 
+    - "-incremental"
+
+  isim: 
+    - "-gui"
+
+  xst: 
+    # Optimization goal: prioritize speed or area.
+    # Values: Speed | Area
+    - "-opt_mode Speed"
+
+    # Optimization level: more aggressive optimizations at level 2.
+    # Values: 1 | 2
+    - "-opt_level 2"
+
+    # Use the new XST parser (recommended for modern designs).
+    # Values: yes | no
+    - "-use_new_parser yes"
+
+    # Preserve design hierarchy or allow flattening for optimization.
+    # Values: Yes | No | Soft
+    - "-keep_hierarchy No"
+
+    # Determines how hierarchy is preserved in the netlist.
+    # Values: As_Optimized | Rebuilt
+    - "-netlist_hierarchy As_Optimized"
+
+    # Global optimization strategy for nets.
+    # Values: AllClockNets | Offset_In_Before | Offset_Out_After | Inpad_To_Outpad | Max_Delay
+    - "-glob_opt AllClockNets"
+
+    ## Misc ##
+
+    # Enable reading of IP cores.
+    # Values: YES | NO
+    - "-read_cores YES"
+
+    # Do not write timing constraints into synthesis report.
+    # Values: YES | NO
+    - "-write_timing_constraints NO"
+
+    # Analyze paths across different clock domains.
+    # Values: YES | NO
+    - "-cross_clock_analysis NO"
+
+    # Character used to separate hierarchy levels in instance names.
+    # Default: /
+    - "-hierarchy_separator /"
+
+    # Delimiters used for bus signals.
+    # Values: <> | [] | () | {}
+    - "-bus_delimiter <>"
+
+    # Maintain original case of identifiers.
+    # Values: Maintain | Upper | Lower
+    - "-case Maintain"
+
+    # Target maximum utilization ratio for slices.
+    # Values: 1–100
+    - "-slice_utilization_ratio 100"
+
+    # Target maximum utilization ratio for BRAMs.
+    # Values: 1–100
+    - "-bram_utilization_ratio 100"
+
+    # Use Verilog 2001 syntax features.
+    # Values: YES | NO
+    - "-verilog2001 YES"
+
+    #### HDL Options ####
+
+    ## FSM ##
+
+    # Extract FSMs (Finite State Machines) from HDL code.
+    # Values: YES | NO
+    - "-fsm_extract YES"
+
+    # Encoding strategy for FSMs.
+    # Values: Auto | Gray | One-Hot | Johnson | Compact | Sequential | Speed1 | User
+    - "-fsm_encoding Auto"
+
+    # Add safe logic for undefined FSM states.
+    # Values: Yes | No
+    - "-safe_implementation No"
+
+    # Structure used to implement FSMs.
+    # Values: LUT | BRAM
+    - "-fsm_style LUT"
+
+    ## RAM/ROM ##
+
+    # Extract RAM inference from HDL.
+    # Values: Yes | No
+    - "-ram_extract Yes"
+
+    # Style used to implement RAM.
+    # Values: Auto | Block | Distributed
+    - "-ram_style Auto"
+
+    # Extract ROM inference from HDL.
+    # Values: Yes | No
+    - "-rom_extract Yes"
+
+    # Style used for implementing ROM.
+    # Values: Auto | Distributed | Block
+    - "-rom_style Auto"
+
+    # Enable or disable automatic BRAM packing.
+    # Values: YES | NO
+    - "-auto_bram_packing NO"
+
+    ## MUX/Decoder/Shift Register ##
+
+    # Extract multiplexers where possible.
+    # Values: Yes | No | Force
+    - "-mux_extract Yes"
+
+    # Style used for implementing MUX logic.
+    # Values: Auto | MUXCY | MUXF
+    - "-mux_style Auto"
+
+    # Extract decoder logic from behavioral code.
+    # Values: YES | NO
+    - "-decoder_extract YES"
+
+    # Extract and optimize priority encoder structures.
+    # Values: Yes | No | Force
+    - "-priority_extract Yes"
+
+    # Extract shift register logic.
+    # Values: YES | NO
+    - "-shreg_extract YES"
+
+    # Extract simple shift operations into dedicated hardware.
+    # Values: YES | NO
+    - "-shift_extract YES"
+
+    ## Multiplier ##
+
+    # Style for implementing multipliers.
+    # Values: Auto | LUT | Pipe_LUT | Pipe_Block | Block
+    - "-mult_style Auto"
+
+    ## Misc ##
+
+    # Collapse XOR trees where beneficial.
+    # Values: YES | NO
+    - "-xor_collapse YES"
+
+    # Share resources like adders or multipliers between logic blocks.
+    # Values: YES | NO | Force
+    - "-resource_sharing YES"
+
+    # Convert asynchronous resets to synchronous where possible.
+    # Values: YES | NO
+    - "-async_to_sync NO"
+
+    #### Xilinx Specific Options ####
+
+    ## Optimization ##
+
+    # Enable removal of logically equivalent registers.
+    # Values: YES | NO
+    - "-equivalent_register_removal YES"
+
+    # Duplicate registers to reduce fanout or improve timing.
+    # Values: YES | NO
+    - "-register_duplication YES"
+
+    # Move registers across logic to balance timing.
+    # Values: Yes | No | Forward | Backward
+    - "-register_balancing No"
+
+    # Use clock enable signals where possible.
+    # Values: Auto | Yes | No
+    - "-use_clock_enable Yes"
+
+    # Use synchronous set (preset) signals when available.
+    # Values: Auto | Yes | No
+    - "-use_sync_set Yes"
+
+    # Use synchronous reset signals where possible.
+    # Values: Auto | Yes | No
+    - "-use_sync_reset Yes"
+
+    ## I/O ##
+
+    # Insert IO buffers for top-level ports.
+    # Values: YES | NO
+    - "-iobuf YES"
+
+    # Placement strategy for IOB registers (Auto = let tools decide).
+    # Values: Auto | YES | NO
+    - "-iob Auto"
+
+    ## Misc ##
+
+    # Maximum allowed fanout for a net.
+    # Values: integer (e.g., 500)
+    - "-max_fanout 500"
+
+    # Maximum number of BUFGs (global buffers) to use.
+    # Values: 0–32 (device-dependent)
+    - "-bufg 24"
+
+    # Enable logic packing into slices.
+    # Values: YES | NO
+    - "-slice_packing YES"
+
+    # Try to reduce the number of primitive instances used.
+    # Values: YES | NO
+    - "-optimize_primitives NO"
+
+    # Margin in percent beyond the target slice utilization.
+    # Values: 0–100
+    - "-slice_utilization_ratio_maxmargin 5"
