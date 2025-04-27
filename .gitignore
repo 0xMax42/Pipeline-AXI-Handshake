@@ -1,3 +1,6 @@
-build/working
+.hdlbuild_deps/
+.working/
+reports/
+output/
 .locale/
 vhdl_ls.toml
