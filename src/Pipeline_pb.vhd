@@ -11,24 +11,36 @@ use ieee.math_real.all;
 
 entity Pipeline_pb is
     generic (
-        --@ Number of pipeline stages
-        G_PipelineStages    : integer := 10;
+        --@ Number of pipeline stages inside each module
+        G_PipelineStages       : integer := 2;
         --@ Data width
-        G_Width             : integer := 32;
+        G_Width                : integer := 8;
         --@ Register balancing attribute<br>
         --@ - "no" : No register balancing <br>
         --@ - "yes": Register balancing in both directions <br>
         --@ - "forward": Moves a set of FFs at the inputs of a LUT to a single FF at its output. <br>
         --@ - "backward": Moves a single FF at the output of a LUT to a set of FFs at its inputs.
-        G_RegisterBalancing : string  := "yes"
+        G_RegisterBalancing    : string  := "yes";
+        --@ Enable pipeline buffer
+        --@ - true  : Use pipeline buffer
+        --@ - false : Direct connection (bypass)
+        G_EnablePipelineBuffer : boolean := true;
+        --@ How many Pipeline modules shall be chained?
+        G_PipelineModules      : integer := 250;
+        --@ Enable chip enable signal
+        G_Enable_CE            : boolean := false;
+        --@ Enable reset signal
+        G_Enable_RST           : boolean := false
         );
     port (
         I_CLK   : in  std_logic;
         I_RST   : in  std_logic;
         I_CE    : in  std_logic;
+        ---
         I_Data  : in  std_logic_vector(G_Width - 1 downto 0);
         I_Valid : in  std_logic;
         O_Ready : out std_logic;
+        ---
         O_Data  : out std_logic_vector(G_Width - 1 downto 0);
         O_Valid : out std_logic;
         I_Ready : in  std_logic
@@ -36,119 +48,116 @@ entity Pipeline_pb is
 end entity Pipeline_pb;
 
 architecture RTL of Pipeline_pb is
-    -- Keep attribute: Prevents the synthesis tool from removing the entity if is "true".
+    ---------------------------------------------------------------------------
+    -- Attribute helpers
+    ---------------------------------------------------------------------------
     attribute keep : string;
-    -- IOB attribute: Attaches the FF to the IOB if is "true".
     attribute IOB  : string;
 
-    -- General Interace
-    signal R_RST                  : std_logic;
-    signal R_CE                   : std_logic;
-    -- Attribute
+    ---------------------------------------------------------------------------
+    -- Bench‐wrapper FFs (synchronous IO)
+    ---------------------------------------------------------------------------
+    signal R_RST                  : std_logic := '0';
+    signal R_CE                   : std_logic := '1';
     attribute keep of R_RST, R_CE : signal is "true";
     attribute IOB of R_RST, R_CE  : signal is "false";
 
-    -- Input Interface
-    signal R_DataIn                                   : std_logic_vector(G_Width - 1 downto 0);
-    signal R_ValidIn                                  : std_logic;
-    signal R_ReadyOut                                 : std_logic;
-    -- Attribute
-    attribute keep of R_DataIn, R_ValidIn, R_ReadyOut : signal is "true";
-    attribute IOB of R_DataIn, R_ValidIn, R_ReadyOut  : signal is "false";
+    signal R_DataIn                       : std_logic_vector(G_Width-1 downto 0);
+    signal R_ValidIn                      : std_logic;
+    attribute keep of R_DataIn, R_ValidIn : signal is "true";
+    attribute IOB of R_DataIn, R_ValidIn  : signal is "false";
 
-    -- Output Interface
-    signal R_DataOut                                   : std_logic_vector(G_Width - 1 downto 0);
+    signal R_DataOut                                   : std_logic_vector(G_Width-1 downto 0);
     signal R_ValidOut                                  : std_logic;
     signal R_ReadyIn                                   : std_logic;
-    -- Attribute
     attribute keep of R_DataOut, R_ValidOut, R_ReadyIn : signal is "true";
     attribute IOB of R_DataOut, R_ValidOut, R_ReadyIn  : signal is "false";
 
-    signal C_Pipeline0Enable : std_logic;
-    signal C_Pipeline1Enable : std_logic;
+    ---------------------------------------------------------------------------
+    -- Chaining arrays (sentinel element @0 and @G_PipelineModules)
+    ---------------------------------------------------------------------------
+    type T_DataArray is array(0 to G_PipelineModules) of std_logic_vector(G_Width-1 downto 0);
 
-    signal R_Valid : std_logic;
-    signal R_Ready : std_logic;
-    signal R_Data  : std_logic_vector(G_Width - 1 downto 0);
+    signal S_Data  : T_DataArray;
+    signal S_Valid : std_logic_vector(0 to G_PipelineModules);
+    signal S_Ready : std_logic_vector(0 to G_PipelineModules);
+
 begin
+    GEN_Enable_CE : if G_Enable_CE = true generate
+        process(I_CLK)
+        begin
+            if rising_edge(I_CLK) then
+                R_CE <= I_CE;
+            end if;
+        end process;
+    end generate GEN_Enable_CE;
 
-    BenchmarkEnvironmentFFs : process (I_CLK)
+    GEN_Enable_RST : if G_Enable_RST = true generate
+        process(I_CLK)
+        begin
+            if rising_edge(I_CLK) then
+                R_RST <= I_RST;
+            end if;
+        end process;
+    end generate GEN_Enable_RST;
+
+    -----------------------------------------------------------------------
+    -- Wrapper FFs: register all top‑level ports once for fair timing
+    -----------------------------------------------------------------------
+    BenchFF : process(I_CLK)
     begin
         if rising_edge(I_CLK) then
-            -- General Interace
-            R_RST <= I_RST;
-            R_CE  <= I_CE;
-
-            -- Input Interface
-            R_DataIn  <= I_Data;
-            R_ValidIn <= I_Valid;
-            O_Ready   <= R_ReadyOut;
-
-            -- Output Interface
-            O_Data    <= R_DataOut;
-            O_Valid   <= R_ValidOut;
-            R_ReadyIn <= I_Ready;
+            --- Register inputs
+            R_DataIn   <= I_Data;
+            R_ValidIn  <= I_Valid;
+            O_Ready    <= S_Ready(0);
+            --- Register outputs
+            R_DataOut  <= S_Data (G_PipelineModules);
+            R_ValidOut <= S_Valid(G_PipelineModules);
+            R_ReadyIn  <= I_Ready;
         end if;
     end process;
 
-    PipelineControllerIn : entity work.PipelineController
-        generic map(
-            G_PipelineStages => G_PipelineStages,
-            G_ResetActiveAt  => '1'
-            )
-        port map(
-            I_CLK    => I_CLK,
-            I_RST    => R_RST,
-            I_CE     => R_CE,
-            O_Enable => C_Pipeline0Enable,
-            I_Valid  => R_ValidIn,
-            O_Ready  => R_ReadyOut,
-            O_Valid  => R_Valid,
-            I_Ready  => R_Ready
-            );
+    O_Data  <= R_DataOut;
+    O_Valid <= R_ValidOut;
 
-    PipelineRegisterIn : entity work.PipelineRegister
-        generic map(
-            G_PipelineStages    => G_PipelineStages,
-            G_Width             => G_Width,
-            G_RegisterBalancing => G_RegisterBalancing
-            )
-        port map(
-            I_CLK    => I_CLK,
-            I_Enable => C_Pipeline0Enable,
-            I_Data   => R_DataIn,
-            O_Data   => R_Data
-            );
+    -----------------------------------------------------------------------
+    -- Bind sentinel 0 with registered inputs
+    -----------------------------------------------------------------------
+    S_Data (0) <= R_DataIn;
+    S_Valid(0) <= R_ValidIn;
 
-    ---------
+    -----------------------------------------------------------------------
+    -- Bind last sentinel with registered outputs
+    -----------------------------------------------------------------------
+    S_Ready(G_PipelineModules) <= R_ReadyIn;
 
-    PipelineControllerOut : entity work.PipelineController
-        generic map(
-            G_PipelineStages => G_PipelineStages,
-            G_ResetActiveAt  => '1'
-            )
-        port map(
-            I_CLK    => I_CLK,
-            I_RST    => R_RST,
-            I_CE     => R_CE,
-            O_Enable => C_Pipeline1Enable,
-            I_Valid  => R_Valid,
-            O_Ready  => R_Ready,
-            O_Valid  => R_ValidOut,
-            I_Ready  => R_ReadyIn
-            );
+    -----------------------------------------------------------------------
+    -- Generate N pipeline modules in series
+    -----------------------------------------------------------------------
+    gen_modules : for i in 0 to G_PipelineModules-1 generate
 
-    PipelineRegisterOut : entity work.PipelineRegister
-        generic map(
-            G_PipelineStages    => G_PipelineStages,
-            G_Width             => G_Width,
-            G_RegisterBalancing => G_RegisterBalancing
-            )
-        port map(
-            I_CLK    => I_CLK,
-            I_Enable => C_Pipeline1Enable,
-            I_Data   => R_Data,
-            O_Data   => R_DataOut
-            );
+        P_MOD : entity work.Pipeline_pb_Module
+            generic map(
+                G_PipelineStages       => G_PipelineStages,
+                G_Width                => G_Width,
+                G_RegisterBalancing    => G_RegisterBalancing,
+                G_EnablePipelineBuffer => G_EnablePipelineBuffer
+                )
+            port map(
+                I_CLK   => I_CLK,
+                I_RST   => R_RST,
+                I_CE    => R_CE,
+                -- Up‑stream side
+                I_Data  => S_Data (i),
+                I_Valid => S_Valid(i),
+                O_Ready => S_Ready(i),
+                -- Down‑stream side
+                O_Data  => S_Data (i+1),
+                O_Valid => S_Valid(i+1),
+                I_Ready => S_Ready(i+1)
+                );
+
+    end generate gen_modules;
 
 end architecture RTL;
