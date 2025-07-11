@@ -26,7 +26,7 @@ entity Pipeline_pb is
         --@ - false : Direct connection (bypass)
         G_EnablePipelineBuffer : boolean := true;
         --@ How many Pipeline modules shall be chained?
-        G_PipelineModules      : integer := 250;
+        G_PipelineModules      : integer := 20;
         --@ Enable chip enable signal
         G_Enable_CE            : boolean := false;
         --@ Enable reset signal

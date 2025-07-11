@@ -1,4 +1,4 @@
 #NET I_CLK	                    LOC = AG18; 
 NET I_CLK	                    LOC = B8; 
 NET I_CLK	                    TNM_NET = CLOCK;
-TIMESPEC TS_CLOCK = PERIOD CLOCK 250 MHz HIGH 50 %;
+TIMESPEC TS_CLOCK = PERIOD CLOCK 280 MHz HIGH 50 %;
