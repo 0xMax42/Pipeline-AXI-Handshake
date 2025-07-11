@@ -41,7 +41,6 @@ architecture RTL of PipelineBufferController is
     signal C_Enable : std_logic := '0';
 
     signal R_IsBuffered : std_logic := '0';
-    signal R_Ready      : std_logic := '1';
 begin
 
     --@ Set mux to buffered mode if data is available in the buffer.
@@ -51,21 +50,19 @@ begin
     --@ Set the valid signal to high if data is available in the buffer or if data is valid.
     O_Valid  <= R_IsBuffered or I_Valid;
 
-    O_Ready <= R_Ready;
-
     process (I_CLK)
     begin
         if rising_edge(I_CLK) then
             if I_RST = G_ResetActiveAt then
                 R_IsBuffered <= '0';
-                R_Ready      <= '1';
+                O_Ready      <= '1';
             elsif I_CE = '1' then
                 if R_IsBuffered = '0' and I_Valid = '1' then
                     R_IsBuffered <= '1';
-                    R_Ready      <= '0';
+                    O_Ready      <= '0';
                 elsif I_Ready = '1' and (R_IsBuffered or I_Valid) = '1' then
                     R_IsBuffered <= '0';
-                    R_Ready      <= '1';
+                    O_Ready      <= '1';
                 end if;
             end if;
         end if;
