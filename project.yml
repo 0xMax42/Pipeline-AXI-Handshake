@@ -249,7 +249,7 @@ tool_options:
 
     # Maximum allowed fanout for a net.
     # Values: integer (e.g., 500)
-    - "-max_fanout 500"
+    - "-max_fanout 50"
 
     # Maximum number of BUFGs (global buffers) to use.
     # Values: 0–32 (device-dependent)
