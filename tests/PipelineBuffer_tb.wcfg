@@ -51,9 +51,9 @@
       <obj_property name="ElementShortName">o_ready</obj_property>
       <obj_property name="ObjectShortName">o_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/pipelinebuffer_tb/o_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">o_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">o_data[31:0]</obj_property>
+   <wvobject fp_name="/pipelinebuffer_tb/i_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">i_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_data[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="divider12" type="divider">
@@ -70,10 +70,138 @@
       <obj_property name="ElementShortName">i_ready</obj_property>
       <obj_property name="ObjectShortName">i_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/pipelinebuffer_tb/i_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">i_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">i_data[31:0]</obj_property>
+   <wvobject fp_name="/pipelinebuffer_tb/o_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">o_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_data[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[31]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[31]</obj_property>
+         <obj_property name="ObjectShortName">o_data[31]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[30]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[30]</obj_property>
+         <obj_property name="ObjectShortName">o_data[30]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[29]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[29]</obj_property>
+         <obj_property name="ObjectShortName">o_data[29]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[28]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[28]</obj_property>
+         <obj_property name="ObjectShortName">o_data[28]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[27]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[27]</obj_property>
+         <obj_property name="ObjectShortName">o_data[27]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[26]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[26]</obj_property>
+         <obj_property name="ObjectShortName">o_data[26]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[25]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[25]</obj_property>
+         <obj_property name="ObjectShortName">o_data[25]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[24]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[24]</obj_property>
+         <obj_property name="ObjectShortName">o_data[24]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[23]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[23]</obj_property>
+         <obj_property name="ObjectShortName">o_data[23]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[22]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[22]</obj_property>
+         <obj_property name="ObjectShortName">o_data[22]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[21]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[21]</obj_property>
+         <obj_property name="ObjectShortName">o_data[21]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[20]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[20]</obj_property>
+         <obj_property name="ObjectShortName">o_data[20]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[19]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[19]</obj_property>
+         <obj_property name="ObjectShortName">o_data[19]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[18]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[18]</obj_property>
+         <obj_property name="ObjectShortName">o_data[18]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[17]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[17]</obj_property>
+         <obj_property name="ObjectShortName">o_data[17]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[16]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[16]</obj_property>
+         <obj_property name="ObjectShortName">o_data[16]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[15]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[15]</obj_property>
+         <obj_property name="ObjectShortName">o_data[15]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[14]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[14]</obj_property>
+         <obj_property name="ObjectShortName">o_data[14]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[13]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[13]</obj_property>
+         <obj_property name="ObjectShortName">o_data[13]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[12]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[12]</obj_property>
+         <obj_property name="ObjectShortName">o_data[12]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[11]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[11]</obj_property>
+         <obj_property name="ObjectShortName">o_data[11]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[10]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[10]</obj_property>
+         <obj_property name="ObjectShortName">o_data[10]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[9]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[9]</obj_property>
+         <obj_property name="ObjectShortName">o_data[9]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[8]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">o_data[8]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[7]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">o_data[7]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[6]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">o_data[6]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[5]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">o_data[5]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[4]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">o_data[4]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[3]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">o_data[3]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[2]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">o_data[2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[1]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">o_data[1]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/pipelinebuffer_tb/o_data[0]" type="logic" db_ref_id="1">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">o_data[0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="group15" type="group">
       <obj_property name="label">Buffer</obj_property>
