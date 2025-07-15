@@ -1,18 +1,19 @@
 {
   "name": "Xilinx ISE 14.7",
-  "image": "xilinx-ise:14.7",
+  "image": "git.0xmax42.io/simdev/xilinx-ise:latest",
   "runArgs": [
     "--privileged",
     "--cap-add=SYS_ADMIN",
     "--shm-size=2g",
     "-v",
-    "/run/user/1000/gnupg/S.gpg-agent:/run/user/1000/gnupg/S.gpg-agent"
+    "/run/user/1000/gnupg/S.gpg-agent:/home/xilinx/.gnupg/S.gpg-agent"
   ],
   "customizations": {
     "vscode": {
       "extensions": [
         "/home/xilinx/vsxirepo/vhdl-by-hgb.vsix",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "WakaTime.vscode-wakatime"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
@@ -26,5 +27,5 @@
   "forwardPorts": [
     10000
   ],
-  "postStartCommand": "git config --global user.signingkey 87C8A5DD5C14DF55DBE1DB4199AC216D447E61C0 && git config --global gpg.format openpgp && git config --global commit.gpgsign true && git config --global tag.forceSignAnnotated true && sudo apt update && sudo apt upgrade -y"
+  "postStartCommand": "git config --global user.signingkey 87C8A5DD5C14DF55DBE1DB4199AC216D447E61C0 && git config --global gpg.format openpgp && git config --global commit.gpgsign true && git config --global tag.forceSignAnnotated true && pip install --upgrade --index-url https://git.0xmax42.io/api/packages/maxp/pypi/simple/ --extra-index-url https://pypi.org/simple/ hdlbuild"
 }
