@@ -30,9 +30,11 @@ entity Pipeline_pb_Module is
         I_CLK   : in  std_logic;
         I_RST   : in  std_logic;
         I_CE    : in  std_logic;
+        ---
         I_Data  : in  std_logic_vector(G_Width - 1 downto 0);
         I_Valid : in  std_logic;
         O_Ready : out std_logic;
+        ---
         O_Data  : out std_logic_vector(G_Width - 1 downto 0);
         O_Valid : out std_logic;
         I_Ready : in  std_logic
@@ -40,7 +42,7 @@ entity Pipeline_pb_Module is
 end entity Pipeline_pb_Module;
 
 architecture RTL of Pipeline_pb_Module is
-    signal C_Pipeline0Enable      : std_logic;
+    signal C_PipelineEnable       : std_logic;
     signal C_PipelineBufferEnable : std_logic_vector(1 downto 0) := (others => '0');
 
     signal R_Valid : std_logic;
@@ -48,7 +50,7 @@ architecture RTL of Pipeline_pb_Module is
     signal R_Data  : std_logic_vector(G_Width - 1 downto 0);
     signal C_Data  : std_logic_vector(G_Width - 1 downto 0);
 begin
-    PipelineControllerIn : entity work.PipelineController
+    INST_PipelineControllerIn : entity work.PipelineController
         generic map(
             G_PipelineStages => G_PipelineStages,
             G_ResetActiveAt  => '1'
@@ -57,14 +59,14 @@ begin
             I_CLK    => I_CLK,
             I_RST    => I_RST,
             I_CE     => I_CE,
-            O_Enable => C_Pipeline0Enable,
+            O_Enable => C_PipelineEnable,
             I_Valid  => I_Valid,
             O_Ready  => O_Ready,
             O_Valid  => R_Valid,
             I_Ready  => R_Ready
             );
 
-    PipelineRegisterIn : entity work.PipelineRegister
+    INST_PipelineRegisterIn : entity work.PipelineRegister
         generic map(
             G_PipelineStages    => G_PipelineStages,
             G_Width             => G_Width,
@@ -72,7 +74,7 @@ begin
             )
         port map(
             I_CLK    => I_CLK,
-            I_Enable => C_Pipeline0Enable,
+            I_Enable => C_PipelineEnable,
             I_Data   => I_Data,
             O_Data   => R_Data
             );
@@ -84,8 +86,8 @@ begin
     ---------
 
     -- Pipeline Buffer Generation based on G_EnablePipelineBuffer
-    gen_pipeline_buffer : if G_EnablePipelineBuffer generate
-        PipelineBufferController : entity work.PipelineBufferController
+    GEN_PipelineBuffer : if G_EnablePipelineBuffer generate
+        INST_PipelineBufferController : entity work.PipelineBufferController
             generic map(
                 G_ResetActiveAt => '1'
                 )
@@ -100,7 +102,7 @@ begin
                 I_Ready  => I_Ready
                 );
 
-        PipelineBuffer : entity work.PipelineBuffer
+        INST_PipelineBuffer : entity work.PipelineBuffer
             generic map(
                 G_Width => G_Width
                 )
@@ -110,14 +112,13 @@ begin
                 I_Data   => C_Data,
                 O_Data   => O_Data
                 );
-    end generate gen_pipeline_buffer;
+    end generate GEN_PipelineBuffer;
 
     -- Direct connection when pipeline buffer is disabled
-    gen_direct_connection : if not G_EnablePipelineBuffer generate
-        -- Direct signal connections (bypass pipeline buffer)
+    GEN_PassthroughWithoutBuffer : if not G_EnablePipelineBuffer generate
         O_Valid <= R_Valid;
         O_Data  <= R_Data;
         R_Ready <= I_Ready;
-    end generate gen_direct_connection;
+    end generate GEN_PassthroughWithoutBuffer;
 
 end architecture RTL;
